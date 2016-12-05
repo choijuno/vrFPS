@@ -1,0 +1,22 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\___Scripts\---1.InGame\Gun.cs">
+    <Files>
+      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie.cs" Line="33" Column="12" />
+      <File FileName="Assets\___Scripts\---1.InGame\Gun.cs" Line="103" Column="7" />
+      <File FileName="Assets\SWS\Scripts\Movement\splineMove.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---0.System\focus.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---0.System\SmoothMouseLook.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---0.System\BtnController.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---0.System\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\zombieSample.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---9.ETC\sampleTrigger.cs" Line="10" Column="46" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="D:\CJO\projects\Gun_prototype\Assets\___Scripts\---1.InGame\Gun.cs" line="91" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
