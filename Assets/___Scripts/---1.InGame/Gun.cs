@@ -4,10 +4,14 @@ using System.Collections;
 public class Gun : MonoBehaviour {
 	LineRenderer myLine;
 	public GameObject lineEndpos;
+	public TextMesh bullet_txt;
+
 	[Space]
 	public GameObject gun_roteX;
 	public float gunMoveSpeed;
 	float gunMoveSpeed_in;
+	public int gunBulletMax;
+	int gunBullet;
 
 	[Space]
 	public Transform GunPos;
@@ -20,6 +24,7 @@ public class Gun : MonoBehaviour {
 	float rotateW;
 
 
+
 	[Space]
 	//sample
 	bool shootCheck;
@@ -28,7 +33,7 @@ public class Gun : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		gunBullet = gunBulletMax;
 		StartCoroutine ("shoot");
 		myLine = GetComponent<LineRenderer> ();
 		gunMoveSpeed_in = gunMoveSpeed;
@@ -37,15 +42,20 @@ public class Gun : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		//Debug.DrawRay (transform.position, transform.forward*200f, Color.red);
-		Debug.Log(GunPos.transform.localPosition);
+		//Debug.Log(GunPos.transform.localPosition);
 		lineSet ();
 		GunMove ();
+		bulletCheck ();
 
 	}
 
 	void lineSet() {
 		myLine.SetPosition (0, transform.position);
 		myLine.SetPosition (1, lineEndpos.transform.position);
+	}
+
+	void bulletCheck() {
+		
 	}
 
 	void GunMove() {
@@ -85,10 +95,14 @@ public class Gun : MonoBehaviour {
 		}
 
 
-		if (Input.GetKey (KeyCode.Z)) {
+		if (Input.GetKey (KeyCode.Space)) {
 			if (shootCheck == false) {
-				shootCheck = true;
+					bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
+					shootCheck = true;
+				
 			}
+
+
 
 		}
 
@@ -97,19 +111,52 @@ public class Gun : MonoBehaviour {
 	}
 
 	IEnumerator shoot() {
+		
+		RaycastHit Hit;
 
 		while (true) {
 			if (shootCheck) {
-				//Vector3 
-				gunModel.transform.localPosition = new Vector3 (0, -0.03f, -0.1f);
-				yield return new WaitForSeconds (shootSpeed);
-				gunModel.transform.localPosition = new Vector3 (0, -0.03f, 0);
-				shootCheck = false;
+
+				if (gunBullet > 0) {
+					//Vector3 
+					gunModel.transform.localPosition = new Vector3 (0, -0.03f, -0.1f);
+					yield return new WaitForSeconds (shootSpeed);
+					gunModel.transform.localPosition = new Vector3 (0, -0.03f, 0);
+					shootCheck = false;
+
+					if (Physics.Raycast (transform.position, gun_roteX.transform.forward, out Hit, 4000f)) {
+						if (Hit.collider.gameObject.CompareTag ("body")) {
+							Hit.transform.gameObject.GetComponent<Zombie> ().hitCheck (1);
+							Debug.Log ("body");
+						}
+						if (Hit.collider.gameObject.CompareTag ("head")) {
+							Hit.transform.gameObject.GetComponent<Zombie> ().hitCheck (2);
+							Debug.Log ("head");
+						}
+
+					}
+
+					gunBullet -= 1;
+
+				} else {
+					bullet_txt.text = "reload...";
+					yield return new WaitForSeconds (2f);
+					reload ();
+
+				}
+
 			}
 
 
 			yield return new WaitForSeconds (0.006f);
 		}
 
+	}
+
+	void reload() {
+		if (gunBullet <= 0) {
+			gunBullet = gunBulletMax;
+		}
+		bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
 	}
 }

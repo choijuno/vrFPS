@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
 	
 
 	void Update () {
+		/*
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			
 			if (GameManager.unityMod) {
@@ -38,5 +39,6 @@ public class GameManager : MonoBehaviour {
 			}
 			cam.transform.rotation = new Quaternion (0, 0, 0, 0);
 		}
+		*/
 	}
 }
