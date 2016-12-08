@@ -120,9 +120,6 @@ public class Gun : MonoBehaviour {
 				if (gunBullet > 0) {
 					//Vector3 
 					gunModel.transform.localPosition = new Vector3 (0, -0.03f, -0.1f);
-					yield return new WaitForSeconds (shootSpeed);
-					gunModel.transform.localPosition = new Vector3 (0, -0.03f, 0);
-					shootCheck = false;
 
 					if (Physics.Raycast (transform.position, gun_roteX.transform.forward, out Hit, 4000f)) {
 						if (Hit.collider.gameObject.CompareTag ("body")) {
@@ -137,6 +134,14 @@ public class Gun : MonoBehaviour {
 					}
 
 					gunBullet -= 1;
+
+
+
+					yield return new WaitForSeconds (shootSpeed);
+					gunModel.transform.localPosition = new Vector3 (0, -0.03f, 0);
+					shootCheck = false;
+
+
 
 				} else {
 					bullet_txt.text = "reload...";

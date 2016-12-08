@@ -1,17 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\___Scripts\---1.InGame\Gun.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FPS Pack\Scripts\MaterialType.cs">
     <Files>
-      <File FileName="Assets\___Scripts\---1.InGame\Gun.cs" Line="19" Column="24" />
-      <File FileName="Assets\___Scripts\---0.System\focus.cs" Line="18" Column="28" />
-      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie.cs" Line="49" Column="3" />
+      <File FileName="Assets\___Scripts\---1.InGame\Gun.cs" Line="127" Column="27" />
+      <File FileName="Assets\___Scripts\---0.System\focus.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie.cs" Line="28" Column="28" />
       <File FileName="Assets\SWS\Scripts\Movement\splineMove.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---0.System\SmoothMouseLook.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---0.System\BtnController.cs" Line="1" Column="1" />
-      <File FileName="Assets\___Scripts\---0.System\GameManager.cs" Line="14" Column="3" />
-      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\zombieSample.cs" Line="14" Column="45" />
+      <File FileName="Assets\___Scripts\---0.System\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\zombieSample.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---9.ETC\sampleTrigger.cs" Line="1" Column="1" />
-      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\enemyCol.cs" Line="11" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\enemyCol.cs" Line="1" Column="1" />
+      <File FileName="Assets\FPS Pack\Scripts\MaterialType.cs" Line="10" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

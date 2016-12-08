@@ -84,6 +84,16 @@
      <Compile Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
      <Compile Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
      <Compile Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\Demo\FPSDemoGUI.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\Demo\FPSDemoReactivator.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\Demo\FPSFireManager.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\Demo\MouseLock.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\FPSLightCurves.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\FPSParticleSystemScaler.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\FPSRandomRotateAngle.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\FPSShaderColorGradient.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\FPSShaderFloatCurves.cs" />
+     <Compile Include="Assets\FPS Pack\Scripts\MaterialType.cs" />
      <Compile Include="Assets\SWS\Examples\Scripts\CameraInputDemo.cs" />
      <Compile Include="Assets\SWS\Examples\Scripts\EventCollisionTrigger.cs" />
      <Compile Include="Assets\SWS\Examples\Scripts\EventReceiver.cs" />
@@ -116,7 +126,9 @@
      <None Include="Assets\Apocalyptic City Pack\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Home Furniture\README.txt" />
+     <None Include="Assets\FPS Pack\Shaders\FPSDistortionParticles.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
+     <None Include="Assets\FPS Pack\Readme.txt" />
      <None Include="Assets\SWS\README.txt" />
      <None Include="Assets\SWS\Extensions\DOTween\DOTween43.xml" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
@@ -142,13 +154,17 @@
      <None Include="Assets\SWS\Extensions\DOTween\DOTween46.xml" />
      <None Include="Assets\SWS\Examples\Assets\Shaders\DiffuseReflectiveShader.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
+     <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Road Pack\README.txt" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
+     <None Include="Assets\FPS Pack\Shaders\FPSProjectorBlended.shader" />
      <None Include="Assets\SWS\Extensions\DOTween\readme.txt" />
+     <None Include="Assets\FPS Pack\Shaders\FPSGlowAdditive.shader" />
      <None Include="Assets\Apocalyptic City Pack\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Flora Pack\README.txt" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Street Pack\README.txt" />
+     <None Include="Assets\FPS Pack\Shaders\FPSLazer.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
@@ -160,6 +176,7 @@
      <None Include="Assets\Apocalyptic City Pack\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
      <None Include="Assets\Apocalyptic City Pack\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
+     <None Include="Assets\FPS Pack\Shaders\FPSGlass.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
      <None Include="Assets\Apocalyptic City Pack\README.txt" />
@@ -193,17 +210,21 @@
      <None Include="Assets\Apocalyptic City Pack\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrection3DLut.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
+     <None Include="Assets\FPS Pack\Shaders\FPSParticleBlendDirLight.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\EdgeDetectNormals.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\PrepareSunShaftsBlur.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
+     <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Rooftops Pack\README.txt" />
+     <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\README.txt" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
      <None Include="Assets\Apocalyptic City Pack\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
      <None Include="Assets\SWS\Extensions\DOTween\DOTween50.xml" />
      <None Include="Assets\Apocalyptic City Pack\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
+     <None Include="Assets\FPS Pack\Shaders\FPSWaterParticles.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Flora Pack\Shader\AlphaTest-DiffuseBack.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
@@ -226,6 +247,12 @@
  <Reference Include="DOTween50">
  <HintPath>D:/CJO/projects/Gun_prototype/Assets/SWS/Extensions/DOTween/DOTween50.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{2550EB0E-CF48-1E52-AE53-A852D7C4B0DE}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
+      <Project>{B30D963F-8C25-1F6B-5827-FE6E46117EB4}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
