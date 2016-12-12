@@ -5,6 +5,9 @@
 
 using UnityEngine;
 using UnityEngine.Events;
+#if UNITY_5_5_OR_NEWER
+using UnityEngine.AI;
+#endif
 
 namespace SWS
 {

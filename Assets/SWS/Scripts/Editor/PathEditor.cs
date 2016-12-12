@@ -6,7 +6,6 @@
 
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace SWS
@@ -41,7 +40,9 @@ namespace SWS
         //.data gives us the data of the array,
         //we replace this {0} token with an index we want to get
         private static string wpArrayData = "waypoints.Array.data[{0}]";
-
+        //
+        private int activeNode = -1;
+        
 
         //called whenever this inspector window is loaded 
         public void OnEnable()
@@ -60,6 +61,8 @@ namespace SWS
 
             //set serialized waypoint array count by passing in the path to our array size
             m_WaypointsCount = m_Object.FindProperty(wpArraySize);
+            //reset selected waypoint
+            activeNode = -1;
         }
 
 
@@ -86,6 +89,9 @@ namespace SWS
         //and set this value to parameter transform "waypoint" directly
         private void SetWaypoint(int index, Transform waypoint)
         {
+            //reset selected waypoint before manipulating array
+            activeNode = -1;
+            
             m_Object.FindProperty(string.Format(wpArrayData, index)).objectReferenceValue = waypoint;
         }
 
@@ -142,24 +148,34 @@ namespace SWS
         //called whenever the inspector gui gets rendered
         public override void OnInspectorGUI()
         {
-            //don't draw inspector fields if the path contains less than 2 points
-            //(a path with less than 2 points really isn't a path)
-            if (m_WaypointsCount.intValue < 2)
-                return;
-
             //this pulls the relative variables from unity runtime and stores them in the object
             m_Object.Update();
 
+            //get waypoint array
+            var waypoints = GetWaypointArray();
+
+            //don't draw inspector fields if the path contains less than 2 points
+            //(a path with less than 2 points really isn't a path)
+            if (m_WaypointsCount.intValue < 2)
+            {
+                //button to create path manually
+                if (GUILayout.Button("Create Path from Children"))
+                {
+                    Undo.RecordObjects(waypoints, "Create Path");
+                    (m_Object.targetObject as PathManager).Create();
+                    SceneView.RepaintAll();
+                }
+
+                return;
+            }
+
             //create new checkboxes for path gizmo property 
             m_Check1.boolValue = EditorGUILayout.Toggle("Draw Smooth Lines", m_Check1.boolValue);
-            //m_Check2.boolValue = EditorGUILayout.Toggle("Draw Direction Handles", m_Check2.boolValue);
+            m_Check2.boolValue = EditorGUILayout.Toggle("Draw Direction", m_Check2.boolValue);
 
             //create new property fields for editing waypoint gizmo colors 
             EditorGUILayout.PropertyField(m_Color1);
             EditorGUILayout.PropertyField(m_Color2);
-
-            //get waypoint array
-            var waypoints = GetWaypointArray();
 
             //calculate path length of all waypoints
             Vector3[] wpPositions = new Vector3[waypoints.Length];
@@ -196,6 +212,14 @@ namespace SWS
                 }
 
                 GUILayout.EndHorizontal();
+            }
+
+            //update use of child transforms as waypoints
+            if (GUILayout.Button("Update Path from Children"))
+            {
+                Undo.RecordObjects(waypoints, "Update Waypoints");
+                (m_Object.targetObject as PathManager).Create();
+                SceneView.RepaintAll();
             }
 
             EditorGUILayout.Space();
@@ -284,6 +308,17 @@ namespace SWS
                     waypoints[i].position = waypointCopy[waypointCopy.Length - 1 - i];
             }
 
+			//orient waypoints to the path in forward direction
+			if (GUILayout.Button ("Rotate Waypoints To Path"))
+			{
+				Undo.RecordObjects(waypoints, "Rotate Waypoints");
+
+				for(int i = 0; i < waypoints.Length - 1; i++)
+					waypoints[i].LookAt(waypoints[i+1]);
+
+				waypoints[waypoints.Length - 1].rotation = waypoints[waypoints.Length - 2].rotation;
+			}
+
             EditorGUILayout.Space();
 
             //draw object field for waypoint prefab
@@ -355,6 +390,7 @@ namespace SWS
             {
                 if (!waypoints[i]) continue;
                 wpPos = waypoints[i].position;
+                
                 size = HandleUtility.GetHandleSize(wpPos) * 0.4f;
 
                 //do not draw waypoint header if too far away
@@ -374,14 +410,44 @@ namespace SWS
                 //draw handles per waypoint, clamp size
                 Handles.color = m_Color2.colorValue;
                 size = Mathf.Clamp(size, 0, 1.2f);
-                Vector3 newPos = Handles.FreeMoveHandle(wpPos, Quaternion.identity,
-                                 size, Vector3.zero, Handles.SphereCap);
-                Handles.RadiusHandle(Quaternion.identity, wpPos, size / 2);
-
-                if (wpPos != newPos)
+                
+                Handles.FreeMoveHandle(wpPos, Quaternion.identity, size, Vector3.zero, (controlID, position, rotation, hSize) => 
                 {
-                    Undo.RecordObject(waypoints[i], "Move Handles");
-                    waypoints[i].position = newPos;
+                    Handles.SphereCap(controlID, position, rotation, hSize);
+                    if(controlID == GUIUtility.hotControl && GUIUtility.hotControl != 0)
+                        activeNode = i;
+                });
+
+                Handles.RadiusHandle(waypoints[i].rotation, wpPos, size / 2);
+            }
+            
+            if(activeNode > -1)
+            {
+                wpPos = waypoints[activeNode].position;
+                Quaternion wpRot = waypoints[activeNode].rotation;
+                switch(Tools.current)
+                {
+                    case Tool.Move:
+                        if(Tools.pivotRotation == PivotRotation.Global)
+                            wpRot = Quaternion.identity;
+                            
+                        Vector3 newPos = Handles.PositionHandle(wpPos, wpRot);
+                        if(wpPos != newPos)
+                        {
+                            Undo.RecordObject(waypoints[activeNode], "Move Handle");
+                            waypoints[activeNode].position = newPos;
+                        }
+                        break;
+
+                    case Tool.Rotate:
+                        Quaternion newRot = Handles.RotationHandle(wpRot, wpPos);
+
+                        if(wpRot != newRot) 
+                        {
+                            Undo.RecordObject(waypoints[activeNode], "Rotate Handle");
+                            waypoints[activeNode].rotation = newRot;
+                        }
+                        break;
                 }
             }
             
@@ -402,21 +468,39 @@ namespace SWS
                 case true:
                     //convert waypoints to curved path points
                     pathPoints = WaypointManager.GetCurved(pathPoints);
+                    //calculate approximate path point amount per segment
+                    int detail = Mathf.FloorToInt((pathPoints.Length - 1f) / (waypoints.Length - 1f));
+                    
                     for(int i = 0; i < waypoints.Length - 1; i++)
                     {
+                        float dist = Mathf.Infinity;
                         //loop over path points to find single segments
                         segments.Add(new List<Vector3>());
+                        
+                        //we are not checking for absolute path points on standard paths, because 
+                        //path points could also be located before or after waypoint positions.
+                        //instead a minimum distance is searched which marks the nearest path point
                         for(int j = curIndex; j < pathPoints.Length; j++)
                         {
-                            //the segment ends here, continue with new segment
-                            if(pathPoints[j] == waypoints[i+1].position)
-                            {
-                                curIndex = j;
-                                break;
-                            }
-                    
                             //add path point to current segment
                             segments[i].Add(pathPoints[j]);
+                            
+                            //start looking for distance after a certain amount of path points of this segment
+                            if(j >= (i+1) * detail)
+                            {
+                                //calculate distance of current path point to waypoint
+                                float pointDist = Vector3.Distance(waypoints[i].position, pathPoints[j]);
+                                //we are getting closer to the waypoint
+                                if(pointDist < dist)
+                                   dist = pointDist;
+                                else
+                                {
+                                   //current path point is more far away than the last one
+                                   //the segment ends here, continue with new segment
+                                   curIndex = j + 1;
+                                   break;
+                                }
+                            }
                         }
                     }
                     break;
@@ -436,7 +520,7 @@ namespace SWS
                     }
                     break;
             }
-            
+
             //loop over segments
             for(int i = 0; i < segments.Count; i++)
             {
@@ -447,7 +531,7 @@ namespace SWS
                     //draw arrow handle on current position with interpolated rotation
                     size = Mathf.Clamp(HandleUtility.GetHandleSize(segments[i][j]) * 0.4f, 0, 1.2f);
                     lerpVal = j / (float)segments[i].Count;
-                    Handles.ArrowCap( 0, segments[i][j], Quaternion.Lerp(waypoints[i].rotation, waypoints[i+1].rotation, lerpVal) * Quaternion.Euler( 0, 90, 0 ), size);
+                    Handles.ArrowCap(0, segments[i][j], Quaternion.Lerp(waypoints[i].rotation, waypoints[i+1].rotation, lerpVal), size);
                 }
             }
         }

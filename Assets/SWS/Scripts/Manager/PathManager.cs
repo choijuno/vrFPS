@@ -4,6 +4,7 @@
  * 	otherwise make available to any third party the Service or the Content. */
 
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace SWS
 {
@@ -59,9 +60,47 @@ namespace SWS
         public GameObject replaceObject;
 
 
+		//auto-add to WaypointManager
         void Awake()
         {
             WaypointManager.AddPath(gameObject);
+        }
+
+
+        /// <summary>
+        /// Create or update waypoint representation from child objects or external parent.
+        /// </summary>
+        public void Create(Transform parent = null)
+        {
+            if (parent == null)
+                parent = transform;
+
+            List<Transform> childs = new List<Transform>();
+            foreach(Transform child in parent)
+                childs.Add(child);
+
+            Create(childs.ToArray());
+        }
+
+
+        /// <summary>
+        /// Create or update waypoint representation from the array passed in, optionally parenting them to the path.
+        /// </summary>
+        public virtual void Create(Transform[] waypoints, bool makeChildren = false)
+        {
+            if(waypoints.Length < 2)
+            {
+                Debug.LogWarning("Not enough waypoints placed - minimum is 2. Cancelling.");
+                return;
+            }
+
+            if(makeChildren)
+            {
+                for(int i = 0; i < waypoints.Length; i++)
+                    waypoints[i].parent = transform;
+            }
+
+            this.waypoints = waypoints;
         }
 
 
@@ -126,9 +165,18 @@ namespace SWS
             return pathPoints;
         }
 
+        
+        /// <summary>
+		/// Returns this waypoint transform according to the index passed in.
+		/// </summary>
+        public virtual Transform GetWaypoint(int index)
+        {
+            return waypoints[index];
+        }
+        
 
 		/// <summary>
-		/// Converts bezier points on the path to waypoint index
+		/// Converts bezier points on the path to waypoint index.
 		/// </summary>
 		public virtual int GetWaypointIndex(int point)
 		{
@@ -137,9 +185,9 @@ namespace SWS
 
 
 		/// <summary>
-		/// Returns the event count (should be equal to waypoint length)
+		/// Returns waypoint length (should be equal to events count).
 		/// </summary>
-		public virtual int GetEventsCount()
+		public virtual int GetWaypointCount()
 		{
 			return waypoints.Length;
 		}

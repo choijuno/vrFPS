@@ -11,8 +11,6 @@ using System.Collections.Generic;
 using DG.Tweening;
 
 using DG.Tweening.Core;
-using DG.Tweening.Core.Easing;
-using DG.Tweening.Core.Enums;
 using DG.Tweening.Plugins.Core.PathCore;
 using DG.Tweening.Plugins.Options;
 
@@ -79,19 +77,17 @@ namespace SWS
         /// <summary>
         /// Selection for speed-based movement or time in seconds per segment. 
         /// <summary>
+        public TimeValue timeValue = TimeValue.speed;
         public enum TimeValue
         {
             time,
             speed
         }
-        public TimeValue timeValue = TimeValue.speed;
 
         /// <summary>
         /// Speed or time value depending on the selected TimeValue type.
         /// <summary>
         public float speed = 5;
-        //original speed when changing the tween's speed
-        private float originSpeed;
 
         /// <summary>
         /// Custom curve when AnimationCurve has been selected as easeType.
@@ -101,6 +97,7 @@ namespace SWS
         /// <summary>
         /// Supported movement looptypes when moving on the path. 
         /// <summary>
+        public LoopType loopType = LoopType.none;
         public enum LoopType
         {
             none,
@@ -109,15 +106,12 @@ namespace SWS
             random,
             yoyo
         }
-        public LoopType loopType = LoopType.none;
 
         /// <summary>
         /// Waypoint array references of the requested path.
         /// <summary>
         [HideInInspector]
         public Vector3[] waypoints;
-        //array of modified waypoint positions for the tween
-        private Vector3[] wpPos;
 
         /// <summary>
         /// List of Unity Events invoked when reaching waypoints.
@@ -131,7 +125,7 @@ namespace SWS
         public DG.Tweening.PathType pathType = DG.Tweening.PathType.CatmullRom;
 
         /// <summary>
-        /// Whether this object should orient itself to a different Unity axis
+        /// Whether this object should orient itself to a different Unity axis.
         /// <summary>
         public DG.Tweening.PathMode pathMode = DG.Tweening.PathMode.Full3D;
 
@@ -150,9 +144,37 @@ namespace SWS
         /// <summary>
         public DG.Tweening.AxisConstraint lockRotation = DG.Tweening.AxisConstraint.None;
 
+        /// <summary>
+        /// Whether to lerp this target from one waypoint rotation to the next,
+        /// effectively overwriting the pathMode setting for all or one axis only.
+        /// </summary>
+		public RotationType waypointRotation = RotationType.none;
+        public enum RotationType
+        {
+            none,
+            all
+			/*
+            x,
+            y,
+            z
+            */
+        }
+
+        /// <summary>
+        /// The target transform to rotate using waypoint rotation, if selected.
+        /// This should be a child object with (0,0,0) rotation that gets overridden.
+        /// </summary>
+        public Transform rotationTarget;
+
         //---DOTween animation helper variables---
         [HideInInspector]
         public Tweener tween;
+        //array of modified waypoint positions for the tween
+        private Vector3[] wpPos;
+        //original speed when changing the tween's speed
+        private float originSpeed;
+        //original rotation when rotating to first waypoint on moveToPath
+        private Quaternion originRot;
         //looptype random generator
         private System.Random rand = new System.Random();
         //looptype random waypoint index array
@@ -183,7 +205,9 @@ namespace SWS
             waypoints = pathContainer.GetPathPoints(local);
             //cache original speed for future speed changes
             originSpeed = speed;
-            
+            //cache original rotation if waypoint rotation is enabled
+            originRot = transform.rotation;
+
             //initialize waypoint positions
             startPoint = Mathf.Clamp(startPoint, 0, waypoints.Length - 1);
             int index = startPoint;
@@ -211,7 +235,7 @@ namespace SWS
 
             //message count is smaller than waypoint count,
             //add empty message per waypoint
-            for (int i = events.Count; i <= pathContainer.GetEventsCount() - 1; i++)
+            for (int i = events.Count; i <= pathContainer.GetWaypointCount() - 1; i++)
                 events.Add(new UnityEvent());
         }
 
@@ -251,6 +275,14 @@ namespace SWS
 
                 parms.OnWaypointChange(OnWaypointChange);
                 parms.OnComplete(ReachedEnd);
+            }
+
+            if (pathMode == DG.Tweening.PathMode.Ignore &&
+				waypointRotation != RotationType.none)
+            {
+                if (rotationTarget == null)
+                    rotationTarget = transform;
+                parms.OnUpdate(OnWaypointRotation);
             }
 
             if (local)
@@ -294,9 +326,9 @@ namespace SWS
 
         //called at every waypoint to invoke events
         private void OnWaypointChange(int index)
-		{
-			index = pathContainer.GetWaypointIndex(index);
-			if (index == -1) return;
+        {
+            index = pathContainer.GetWaypointIndex(index);
+            if (index == -1) return;
             if (loopType != LoopType.yoyo && reverse)
                 index = waypoints.Length - 1 - index;
             if (loopType == LoopType.random)
@@ -309,6 +341,125 @@ namespace SWS
                 return;
 
             events[index].Invoke();
+        }
+
+
+        //EXPERIMENTAL
+        //called on every tween update for lerping rotation between waypoints
+        private void OnWaypointRotation()
+        {
+            int lookPoint = currentPoint;
+            lookPoint = Mathf.Clamp(pathContainer.GetWaypointIndex(currentPoint), 0, pathContainer.GetWaypointCount());
+
+            if (!tween.IsInitialized() || tween.IsComplete())
+            {
+                ApplyWaypointRotation(pathContainer.GetWaypoint(lookPoint).rotation);
+                return;
+            }
+
+            TweenerCore<Vector3, Path, PathOptions> tweenPath = tween as TweenerCore<Vector3, Path, PathOptions>;
+            float currentDist = tweenPath.PathLength() * tweenPath.ElapsedPercentage();
+            float pathLength = 0f;
+            float currentPerc = 0f;
+            int targetPoint = currentPoint;
+
+            if (moveToPath)
+            {
+                pathLength = tweenPath.changeValue.wpLengths[1];
+                currentPerc = currentDist / pathLength;
+                ApplyWaypointRotation(Quaternion.Lerp(originRot, pathContainer.GetWaypoint(currentPoint).rotation, currentPerc));
+                return;
+            }
+
+            if (pathContainer is BezierPathManager)
+            {
+                BezierPathManager bPath = pathContainer as BezierPathManager;
+                int curPoint = currentPoint;
+
+                if (reverse)
+                {
+                    targetPoint = bPath.GetWaypointCount() - 2 - (waypoints.Length - currentPoint - 1);
+                    curPoint = (bPath.bPoints.Count - 2) - targetPoint;
+                }
+
+                int prevPoints = (int)(curPoint * bPath.pathDetail * 10);
+
+                if (bPath.customDetail)
+                {
+                    prevPoints = 0;
+                    for (int i = 0; i < targetPoint; i++)
+                        prevPoints += (int)(bPath.segmentDetail[i] * 10);
+                }
+
+                if (reverse)
+                {
+                    for (int i = 0; i <= curPoint * 10; i++)
+                        currentDist -= tweenPath.changeValue.wpLengths[i];
+                }
+                else
+                {
+                    for (int i = 0; i <= prevPoints; i++)
+                        currentDist -= tweenPath.changeValue.wpLengths[i];
+                }
+
+                if (bPath.customDetail)
+                {
+                    for (int i = prevPoints + 1; i <= prevPoints + bPath.segmentDetail[currentPoint] * 10; i++)
+                        pathLength += tweenPath.changeValue.wpLengths[i];
+                }
+                else
+                {
+                    for (int i = prevPoints + 1; i <= prevPoints + 10; i++)
+                        pathLength += tweenPath.changeValue.wpLengths[i];
+                }
+            }
+            else
+            {
+                if(reverse) targetPoint = waypoints.Length - currentPoint - 1;
+
+                for (int i = 0; i <= targetPoint; i++)
+                    currentDist -= tweenPath.changeValue.wpLengths[i];
+				
+                pathLength = tweenPath.changeValue.wpLengths[targetPoint + 1];
+            }
+
+            currentPerc = currentDist / pathLength;
+            if (pathContainer is BezierPathManager)
+            {
+                lookPoint = targetPoint;
+                if (reverse) lookPoint++;
+            }
+
+            currentPerc = Mathf.Clamp01(currentPerc);
+            ApplyWaypointRotation(Quaternion.Lerp(pathContainer.GetWaypoint(lookPoint).rotation, pathContainer.GetWaypoint(reverse ? lookPoint - 1 : lookPoint + 1).rotation, currentPerc));
+        }
+
+
+        //EXPERIMENTAL
+        //filters the rotation passed in depending on the RotationType we selected
+        private void ApplyWaypointRotation(Quaternion rotation)
+        {
+			rotationTarget.rotation = rotation;
+
+			//limit rotation to specific axis
+			//IN DEVELOPMENT
+			/*
+            switch (waypointRotation)
+            {
+				case RotationType.all:
+					rotationTarget.rotation = rotation;
+                    break;
+				case RotationType.x:
+					rotationTarget.localEulerAngles = rotation.eulerAngles.x * transform.right * -1;
+                    break;
+                case RotationType.y:
+                    rotationTarget.localEulerAngles = rotation.eulerAngles.y * transform.up;
+                    break;
+                case RotationType.z:
+                    rotationTarget.localEulerAngles = rotation.eulerAngles.z * transform.forward * -1;
+                    break;
+            }
+            */
         }
 
 

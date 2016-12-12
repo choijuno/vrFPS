@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/FPS Pack/Scenes/Unity4_FPS_Scene.unity
+- path: Assets/Apocalyptic City Pack/Scene/main scene.unity
   isLoaded: 1
   isActive: 1

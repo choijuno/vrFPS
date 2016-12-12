@@ -44,6 +44,11 @@ public class RuntimeDemo : MonoBehaviour
     /// <summary>
     public ExampleClass6 example6;
 
+    /// <summary>
+    /// Path creation example variables.
+    /// <summary>
+    public ExampleClass6 example7;
+
 
     //draw buttons for each example
     void OnGUI()
@@ -54,6 +59,7 @@ public class RuntimeDemo : MonoBehaviour
         DrawExample4();
         DrawExample5();
         DrawExample6();
+        DrawExample7();
     }
 
 
@@ -195,6 +201,41 @@ public class RuntimeDemo : MonoBehaviour
     }
 
 
+    void DrawExample7()
+    {
+        GUI.Label(new Rect(10, 150, 20, 20), "7:");
+
+        if (!example7.done && GUI.Button(new Rect(30, 150, 100, 20), "Create Path"))
+        {
+            //create path manager game object
+            GameObject newPath = new GameObject("Path7 (Runtime Creation)");
+            PathManager path = newPath.AddComponent<PathManager>();
+
+            //declare waypoint positions
+            Vector3[] positions = new Vector3[] { new Vector3(-25, 0, -20), new Vector3(-15, 3, -20), new Vector3(-4, 0, -20) };
+            Transform[] waypoints = new Transform[positions.Length];
+
+            //instantiate waypoints
+            for (int i = 0; i < positions.Length; i++)
+            {
+                GameObject newPoint = new GameObject("Waypoint " + i);
+                waypoints[i] = newPoint.transform;
+                waypoints[i].position = positions[i];
+            }
+
+            //assign waypoints to path
+            path.Create(waypoints, true);
+
+            //optional for visibility in the build
+            newPath.AddComponent<PathRenderer>();
+            newPath.GetComponent<LineRenderer>().material = new Material(Shader.Find("Sprites/Default"));
+
+            //example only
+            example7.done = true;
+        }
+    }
+
+
     [System.Serializable]
     public class ExampleClass1
     {
@@ -234,6 +275,12 @@ public class RuntimeDemo : MonoBehaviour
     {
         public splineMove moveRef;
         public GameObject target;
+        public bool done = false;
+    }
+
+    [System.Serializable]
+    public class ExampleClass7
+    {
         public bool done = false;
     }
 }

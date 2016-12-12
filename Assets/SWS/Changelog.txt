@@ -1,6 +1,22 @@
 **************************************
 CHANGELOG (v5 and above)
 **************************************
+v5.3
+- added 'Draw Direction' toggle to paths for drawing waypoint rotations
+- added new rotation mode on splineMove: lerp between waypoint rotation
+  while moving. This mode is added via new dropdown 'Waypoint Rotation',
+  which gets visible in the movement inspector if 'Path Mode' is set to
+  'Ignored'. Note that this is an experimental feature and might change.
+- added new scene 'Example10_WaypointRotation' to showcase the new mode
+- added button on PathManagers to update waypoints from children objects
+- added runtime path creation sample to scene 'Example7_Runtime'
+- added rotation handle to waypoints for rotating them in the editor
+- changed free move handles on all waypoints to editor position handles
+- changed position handles only being visible for the selected waypoint
+- position/rotation handle is visible depending on selected editor tool
+- fixed undo/redo of bezier path control point position changes
+- DOTween updated to 1.1.340
+
 v5.2
 - Reverse() method added to movement scripts, reverse walkers anytime
 - Adding PathManagers to WaypointManager at runtime redesigned: you dont

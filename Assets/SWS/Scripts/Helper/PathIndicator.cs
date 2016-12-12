@@ -39,7 +39,13 @@ namespace SWS
             {
                 //set particle rotation
                 float rot = (transform.eulerAngles.y + modRotation) * Mathf.Deg2Rad;
+                #if UNITY_5_5_OR_NEWER
+                var pMain = pSys.main;
+                pMain.startRotation = rot;
+                #else
                 pSys.startRotation = rot;
+                #endif
+                
                 //emit one particle
                 pSys.Emit(1);
                 //wait before emitting another one

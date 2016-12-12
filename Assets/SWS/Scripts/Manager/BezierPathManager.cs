@@ -69,6 +69,39 @@ namespace SWS
         }
 
 
+        /// <summary>
+        /// Create or update waypoint representation from the array passed in, optionally parenting them to the path.
+        /// </summary>
+        public override void Create(Transform[] waypoints, bool makeChildren = false)
+        {
+            if (waypoints.Length < 2)
+            {
+                Debug.LogWarning("Not enough waypoints placed - minimum is 2. Cancelling.");
+                return;
+            }
+
+            if (makeChildren)
+            {
+                for (int i = 0; i < waypoints.Length; i++)
+                    waypoints[i].parent = transform;
+            }
+
+            bPoints.Clear();
+            for(int i = 0; i < waypoints.Length; i++)
+            {
+                BezierPoint point = new BezierPoint();
+                point.wp = waypoints[i];
+                point.cp = new Transform[2];
+                point.cp[0] = point.wp.GetChild(0);
+                point.cp[1] = point.wp.GetChild(1);
+                bPoints.Add(point);
+            }
+
+            //recalculate after modification
+            CalculatePath();
+        }
+
+
         //editor visualization
         void OnDrawGizmos()
         {
@@ -111,13 +144,22 @@ namespace SWS
         }
 
 
-		/// <summary>
-		/// Returns the event count (equal to waypoint length)
-		/// </summary>
-		public override int GetEventsCount()
+        /// <summary>
+        /// Returns waypoint length (should be equal to events count).
+        /// </summary>
+        public override int GetWaypointCount()
 		{
 			return bPoints.Count;
 		}
+        
+        
+        /// <summary>
+		/// Returns the bezier path waypoint transform according to the index passed in.
+		/// </summary>
+        public override Transform GetWaypoint(int index)
+        {
+            return bPoints[index].wp;
+        }
 
 
 		/// <summary>

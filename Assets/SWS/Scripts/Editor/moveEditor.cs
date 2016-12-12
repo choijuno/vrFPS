@@ -5,10 +5,7 @@
  */
 
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace SWS
 {
@@ -131,7 +128,7 @@ namespace SWS
                 {
                     //get total list size and set it to the waypoint size,
                     //so each waypoint has one event
-                    m_List.arraySize = GetPathTransform().GetEventsCount();
+                    m_List.arraySize = GetPathTransform().GetWaypointCount();
                 }
             }
             else

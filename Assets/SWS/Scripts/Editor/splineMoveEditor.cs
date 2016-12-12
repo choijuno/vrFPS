@@ -6,8 +6,6 @@
 
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace SWS
 {
@@ -52,14 +50,24 @@ namespace SWS
 
             EditorGUILayout.PropertyField(m_Object.FindProperty("pathType"));
             SerializedProperty orientToPath = m_Object.FindProperty("pathMode");
-            EditorGUILayout.PropertyField(orientToPath);
-            if (orientToPath.enumValueIndex != 0)
-            {
-                EditorGUILayout.PropertyField(m_Object.FindProperty("lookAhead"));
-                EditorGUILayout.PropertyField(m_Object.FindProperty("lockRotation"));
-            }
 
+            EditorGUILayout.PropertyField(orientToPath);
+            if (orientToPath.enumValueIndex > 0)
+			{
+			    EditorGUILayout.PropertyField(m_Object.FindProperty("lookAhead"));
+				EditorGUILayout.PropertyField(m_Object.FindProperty("lockRotation"));
+			}
             EditorGUILayout.PropertyField(m_Object.FindProperty("lockPosition"));
+
+			if(orientToPath.enumValueIndex == 0)
+			{
+	            SerializedProperty waypointRotation = m_Object.FindProperty("waypointRotation");
+	            EditorGUILayout.PropertyField(waypointRotation);
+	            if(waypointRotation.enumValueIndex > 0)
+	            {
+	                EditorGUILayout.PropertyField(m_Object.FindProperty("rotationTarget"));
+	            }
+			}
 
             //get Path Manager component
             var path = GetPathTransform();

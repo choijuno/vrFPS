@@ -6,7 +6,6 @@
 
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace SWS
@@ -23,6 +22,8 @@ namespace SWS
         private bool showDetailSettings = false;
         //inspector scrollbar x/y position, modified by mouse input
         private Vector2 scrollPosDetail;
+        //
+        private int activeNode = -1;
 
 
         //called whenever this inspector window is loaded 
@@ -30,6 +31,7 @@ namespace SWS
         {
             //we create a reference to our script object by passing in the target
             script = (BezierPathManager)target;
+            if (script.bPoints.Count == 0) return;
 
             //reposition handles of the first and last point to the waypoint
             //they only have one control point so we set the other one to zero
@@ -46,6 +48,8 @@ namespace SWS
         //adds a waypoint when clicking on the "+" button in the inspector
         private void AddWaypointAtIndex(int index)
         {
+            //reset waypoint selection
+            activeNode = -1;
             //create a new bezier point property class
             BezierPoint point = new BezierPoint();
             //create new waypoint gameobject
@@ -86,7 +90,9 @@ namespace SWS
         //removes a waypoint when clicking on the "-" button in the inspector
         private void RemoveWaypointAtIndex(int index)
         {
-            Undo.RecordObject(script, "Remove");
+            //reset waypoint selection
+            activeNode = -1;
+            Undo.RecordObject(script, "Remove Waypoint");
             //remove corresponding detail value
             script.segmentDetail.RemoveAt(index - 1);
             //remove the point from the list
@@ -100,7 +106,17 @@ namespace SWS
             //don't draw inspector fields if the path contains less than 2 points
             //(a path with less than 2 points really isn't a path)
             if (script.bPoints.Count < 2)
+            {
+                //button to create path manually
+                if (GUILayout.Button("Create Path from Children"))
+                {
+                    Undo.RecordObject(script, "Create Path");
+                    script.Create();
+                    SceneView.RepaintAll();
+                }
+
                 return;
+            }
 
             //checkbox field to enable editable path properties
             script.showHandles = EditorGUILayout.Toggle("Show Handles", script.showHandles);
@@ -109,7 +125,7 @@ namespace SWS
             //checkbox field for drawing gizmo path lines
             script.drawCurved = EditorGUILayout.Toggle("Draw Smooth Lines", script.drawCurved);
             //checkbox field for drawing waypoint direction rotation
-            //script.drawDirection = EditorGUILayout.Toggle("Draw Direction Handles", script.drawDirection);
+            script.drawDirection = EditorGUILayout.Toggle("Draw Direction", script.drawDirection);
 
             //create new color fields for editing path gizmo colors 
             script.color1 = EditorGUILayout.ColorField("Color1", script.color1);
@@ -165,6 +181,14 @@ namespace SWS
                 }
 
                 GUILayout.EndHorizontal();
+            }
+
+            //update use of child transforms as waypoints
+            if (GUILayout.Button("Update Path from Children"))
+            {
+                Undo.RecordObject(script, "Update Waypoints");
+                script.Create();
+                SceneView.RepaintAll();
             }
 
             EditorGUILayout.Space();
@@ -255,6 +279,29 @@ namespace SWS
 
                     currentPoint.cp[0].position = currentPoint.cp[1].position;
                     currentPoint.cp[1].position = leftHandle;
+                }
+            }
+
+            //orient waypoints to the path in forward direction
+            if (GUILayout.Button("Rotate Waypoints To Path"))
+            {
+                Undo.RecordObject(script, "Rotate Waypoints");
+
+                for (int i = 0; i < script.bPoints.Count; i++)
+                {
+                    //save child rotations before applying waypoint rotation
+                    Vector3[] globalPos = new Vector3[script.bPoints[i].wp.childCount];
+                    for (int j = 0; j < globalPos.Length; j++)
+                        globalPos[j] = script.bPoints[i].wp.GetChild(j).position;
+
+                    if(i == script.bPoints.Count - 1)
+                        script.bPoints[i].wp.rotation = script.bPoints[i - 1].wp.rotation;
+                    else
+                        script.bPoints[i].wp.LookAt(script.bPoints[i + 1].wp);
+
+                    //restore previous location after rotation
+                    for (int j = 0; j < globalPos.Length; j++)
+                        script.bPoints[i].wp.GetChild(j).position = globalPos[j];
                 }
             }
 
@@ -394,57 +441,86 @@ namespace SWS
                     Handles.EndGUI(); //end GUI block
                 }
 
-                Handles.color = script.color2;
                 //draw bezier point handles, clamp size
+                Handles.color = script.color2;
                 size = Mathf.Clamp(size, 0, 1.2f);
-
-                //Vector3 newPos = Handles.PositionHandle(wpPos, Quaternion.identity);
-                Vector3 newPos = Handles.FreeMoveHandle(wpPos, Quaternion.identity,
-                                 size, Vector3.zero, Handles.SphereCap);
-                //Handles.RadiusHandle(Quaternion.identity, wpPos, size / 2);
-
-                if (wpPos != newPos)
+                
+                Handles.FreeMoveHandle(wpPos, Quaternion.identity, size, Vector3.zero, (controlID, position, rotation, hSize) => 
                 {
-                    Undo.RecordObject(point.wp, "Move Handles");
-                    point.wp.position = newPos;
-                }
+                    Handles.SphereCap(controlID, position, rotation, hSize);
+                    if(controlID == GUIUtility.hotControl && GUIUtility.hotControl != 0)
+                        activeNode = i;
+                });
 
-                if (!script.showHandles) continue;
-
+                Handles.RadiusHandle(point.wp.rotation, wpPos, size / 2);
+            }
+            
+            if(activeNode > -1)
+            {
+                BezierPoint point = script.bPoints[activeNode];
                 Handles.color = script.color3;
-                Vector3 moved = Vector3.zero;
-                float controlSize = 1f;
 
-                //draw control point handles
-                //left handle, all control points except first one
-                if (i > 0)
+
+                Quaternion wpRot = script.bPoints[activeNode].wp.rotation;
+                switch(Tools.current)
                 {
-                    controlSize = HandleUtility.GetHandleSize(point.cp[0].position) * 0.25f;
-                    controlSize = Mathf.Clamp(controlSize, 0, 0.5f);
+                    case Tool.Move:
+                        //draw control point handles
+                        //left handle (0): all control points except first one
+                        //right handle (1): all waypoints except last one
+                        for (int i = 0; i <= 1; i++)
+                        {
+                            if (i == 0 && activeNode == 0) continue;
+                            if (i == 1 && activeNode == script.bPoints.Count - 1) continue;
 
-                    moved = Handles.FreeMoveHandle(point.cp[0].position, Quaternion.identity, controlSize, Vector3.zero, Handles.SphereCap);
-                    if (Vector3.Distance(point.cp[0].position, moved) > 0.01f)
-                    {
-                        PositionOpposite(point, true, moved);
-                        Undo.RecordObject(point.cp[0], "Move Control Left");
-                    }
+                            size = HandleUtility.GetHandleSize(point.cp[i].position) * 0.25f;
+                            size = Mathf.Clamp(size, 0, 0.5f);
+                            wpPos = point.cp[i].position;
+                            Handles.SphereCap(activeNode, wpPos, Quaternion.identity, size);
+
+                            wpPos = Handles.PositionHandle(wpPos, Quaternion.identity);
+                            if (Vector3.Distance(point.cp[i].position, wpPos) > 0.01f)
+                            {
+                                Undo.RecordObject(point.cp[i].transform, "Move Control Point");
+                                PositionOpposite(point, i == 0 ? true : false, wpPos);
+                            }
+                        }
+
+                        //draw line between control points
+                        Handles.DrawLine(point.cp[0].position, point.cp[1].position);
+                        wpPos = script.bPoints[activeNode].wp.position;
+
+                        if (Tools.pivotRotation == PivotRotation.Global)
+                            wpRot = Quaternion.identity;
+                            
+                        Vector3 newPos = Handles.PositionHandle(wpPos, wpRot);
+                        if(wpPos != newPos)
+                        {
+                            Undo.RecordObject(script.bPoints[activeNode].wp, "Move Handle");
+                            script.bPoints[activeNode].wp.position = newPos;
+                        }
+                        break;
+
+                    case Tool.Rotate:
+                        wpPos = script.bPoints[activeNode].wp.position;
+                        Quaternion newRot = Handles.RotationHandle(wpRot, wpPos);
+
+                        if (wpRot != newRot) 
+                        {
+                            //save child rotations before applying waypoint rotation
+                            Vector3[] globalPos = new Vector3[script.bPoints[activeNode].wp.childCount];
+                            for (int i = 0; i < globalPos.Length; i++)
+                                globalPos[i] = script.bPoints[activeNode].wp.GetChild(i).position;
+
+                            Undo.RecordObject(script.bPoints[activeNode].wp, "Rotate Handle");
+                            script.bPoints[activeNode].wp.rotation = newRot;
+
+                            //restore previous location after rotation
+                            for (int i = 0; i < globalPos.Length; i++)
+                                script.bPoints[activeNode].wp.GetChild(i).position = globalPos[i];
+                        }
+                        break;
                 }
-                //right handle, all waypoints except last one
-                if (i < script.bPoints.Count - 1)
-                {
-                    controlSize = HandleUtility.GetHandleSize(point.cp[1].position) * 0.25f;
-                    controlSize = Mathf.Clamp(controlSize, 0, 0.5f);
-
-                    moved = Handles.FreeMoveHandle(point.cp[1].position, Quaternion.identity, controlSize, Vector3.zero, Handles.SphereCap);
-                    if (Vector3.Distance(point.cp[1].position, moved) > 0.01f)
-                    {
-                        PositionOpposite(point, false, moved);
-                        Undo.RecordObject(point.cp[1], "Move Control Right");
-                    }
-                }
-
-                //draw line between control points
-                Handles.DrawLine(point.cp[0].position, point.cp[1].position);
             }
 
             if (GUI.changed)
@@ -477,6 +553,8 @@ namespace SWS
                 for(int j = curIndex; j < pathPoints.Length; j++)
                 {
                     //the segment ends here, continue with new segment
+                    //we are checking for the exact path point, because for bezier paths
+                    //path points are exactly located on waypoint positions in the editor
                     if(pathPoints[j] == script.bPoints[i+1].wp.position)
                     {
                         curIndex = j;
@@ -498,7 +576,7 @@ namespace SWS
                     //draw arrow handle on current position with interpolated rotation
                     size = Mathf.Clamp(HandleUtility.GetHandleSize(segments[i][j]) * 0.4f, 0, 1.2f);
                     lerpVal = j / (float)segments[i].Count;
-                    Handles.ArrowCap( 0, segments[i][j], Quaternion.Lerp(script.bPoints[i].wp.rotation, script.bPoints[i+1].wp.rotation, lerpVal) * Quaternion.Euler( 0, 90, 0 ), size);
+                    Handles.ArrowCap( 0, segments[i][j], Quaternion.Lerp(script.bPoints[i].wp.rotation, script.bPoints[i+1].wp.rotation, lerpVal), size);
                 }
             }
         }

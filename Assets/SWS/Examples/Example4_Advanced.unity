@@ -1380,6 +1380,7 @@ MonoBehaviour:
   - {fileID: 734198161}
   - {fileID: 2106548647}
   drawCurved: 0
+  drawDirection: 0
   color1: {r: 1, g: 0, b: 1, a: .5}
   color2: {r: 1, g: .921568632, b: .0156862754, a: .5}
   size: {x: .699999988, y: .699999988, z: .699999988}
@@ -1545,6 +1546,7 @@ MonoBehaviour:
   - {fileID: 1461896710}
   - {fileID: 1187382019}
   drawCurved: 1
+  drawDirection: 0
   color1: {r: 1, g: 0, b: 1, a: .5}
   color2: {r: 1, g: .921568632, b: .0156862754, a: .5}
   size: {x: .699999988, y: .699999988, z: .699999988}
@@ -1824,7 +1826,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 356492890}
   m_LocalRotation: {x: .4226183, y: 0, z: 0, w: .906307817}
-  m_LocalPosition: {x: 0, y: 25, z: -30}
+  m_LocalPosition: {x: 0, y: 22, z: -22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2117,9 +2119,11 @@ MonoBehaviour:
   events: []
   pathType: 1
   pathMode: 1
-  easeType: 0
+  easeType: 1
   lockPosition: 0
   lockRotation: 0
+  waypointRotation: 0
+  rotationTarget: {fileID: 0}
 --- !u!1 &482242171
 GameObject:
   m_ObjectHideFlags: 0
@@ -3001,6 +3005,8 @@ MonoBehaviour:
   easeType: 1
   lockPosition: 0
   lockRotation: 0
+  waypointRotation: 0
+  rotationTarget: {fileID: 0}
 --- !u!1 &813906650
 GameObject:
   m_ObjectHideFlags: 0
@@ -3052,6 +3058,7 @@ MonoBehaviour:
   - {fileID: 269292584}
   - {fileID: 1648743881}
   drawCurved: 0
+  drawDirection: 0
   color1: {r: 1, g: 0, b: 1, a: .5}
   color2: {r: 1, g: .921568632, b: .0156862754, a: .5}
   size: {x: .699999988, y: .699999988, z: .699999988}
@@ -3233,6 +3240,8 @@ MonoBehaviour:
   easeType: 18
   lockPosition: 0
   lockRotation: 0
+  waypointRotation: 0
+  rotationTarget: {fileID: 0}
 --- !u!1 &908772272
 GameObject:
   m_ObjectHideFlags: 0
@@ -4167,6 +4176,8 @@ MonoBehaviour:
   easeType: 1
   lockPosition: 0
   lockRotation: 2
+  waypointRotation: 0
+  rotationTarget: {fileID: 0}
 --- !u!114 &1529988087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4178,7 +4189,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6d286bc8af6064586611bb74e502a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mType: 0
 --- !u!212 &1529988088
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4788,6 +4798,7 @@ MonoBehaviour:
   - {fileID: 679077817}
   - {fileID: 220302026}
   drawCurved: 1
+  drawDirection: 0
   color1: {r: 1, g: 0, b: 1, a: .5}
   color2: {r: 1, g: .921568632, b: .0156862754, a: .5}
   size: {x: .699999988, y: .699999988, z: .699999988}
@@ -5067,6 +5078,7 @@ MonoBehaviour:
   - {fileID: 1373990620}
   - {fileID: 418513801}
   drawCurved: 1
+  drawDirection: 0
   color1: {r: 1, g: 0, b: 1, a: .5}
   color2: {r: 1, g: .921568632, b: .0156862754, a: .5}
   size: {x: .699999988, y: .699999988, z: .699999988}
@@ -5271,6 +5283,8 @@ MonoBehaviour:
   easeType: 3
   lockPosition: 0
   lockRotation: 0
+  waypointRotation: 0
+  rotationTarget: {fileID: 0}
 --- !u!1 &2027100201
 GameObject:
   m_ObjectHideFlags: 0

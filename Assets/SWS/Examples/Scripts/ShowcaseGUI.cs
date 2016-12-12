@@ -16,7 +16,7 @@ using System.Collections;
 public class ShowcaseGUI : MonoBehaviour
 {
     private static ShowcaseGUI instance;
-    private int levels = 9;
+    private int levels = 10;
 
 
     void Start()

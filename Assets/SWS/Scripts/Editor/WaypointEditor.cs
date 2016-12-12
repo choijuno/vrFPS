@@ -255,6 +255,7 @@ namespace SWS
             //position current waypoint at clicked position in scene view
             if (mode2D) placePos.z = 0f;
             wayp.transform.position = placePos;
+            wayp.transform.rotation = Quaternion.Euler(-90, 0, 0);
             //parent it to the defined path 
             wayp.transform.parent = pathMan.transform;
             //add waypoint to temporary list
@@ -282,6 +283,7 @@ namespace SWS
             //position current waypoint at clicked position in scene view
             if (mode2D) placePos.z = 0f;
             wayp.position = placePos;
+            wayp.transform.rotation = Quaternion.Euler(-90, 0, 0);
             //parent it to the defined path
             wayp.parent = pathMan.transform;
 
