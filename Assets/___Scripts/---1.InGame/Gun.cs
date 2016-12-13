@@ -44,7 +44,7 @@ public class Gun : MonoBehaviour {
 	void Start () {
 		gunBullet = gunBulletMax;
 		StartCoroutine ("shoot");
-		gunMoveSpeed_in = gunMoveSpeed;
+		gunMoveSpeed_in = gunMoveSpeed * 1.75f;
 	}
 	
 	// Update is called once per frame
@@ -84,7 +84,7 @@ public class Gun : MonoBehaviour {
 		//up
 		if (Input.GetAxis ("Vertical") > 0) {
 			if (GunPos.transform.localPosition.y < Umax.transform.localPosition.y) {
-				GunPos.transform.localPosition = GunPos.transform.localPosition + new Vector3 (0, ((gunMoveSpeed_in * 0.1f) * Input.GetAxis ("Vertical")) * Time.deltaTime, 0);
+				GunPos.transform.localPosition = GunPos.transform.localPosition + new Vector3 (0, ((gunMoveSpeed_in * 0.05f) * Input.GetAxis ("Vertical")) * Time.deltaTime, 0);
 				gun_roteX.transform.Rotate ((gunMoveSpeed_in * -Input.GetAxis ("Vertical")) * Time.deltaTime, 0, 0);
 			}
 
@@ -92,7 +92,7 @@ public class Gun : MonoBehaviour {
 		//down
 		if (Input.GetAxis ("Vertical") < 0) {
 			if (GunPos.transform.localPosition.y > Dmax.transform.localPosition.y) {
-				GunPos.transform.localPosition = GunPos.transform.localPosition + new Vector3 (0, ((gunMoveSpeed_in * 0.1f) * Input.GetAxis ("Vertical")) * Time.deltaTime, 0);
+				GunPos.transform.localPosition = GunPos.transform.localPosition + new Vector3 (0, ((gunMoveSpeed_in * 0.05f) * Input.GetAxis ("Vertical")) * Time.deltaTime, 0);
 				gun_roteX.transform.Rotate ((gunMoveSpeed_in * -Input.GetAxis ("Vertical")) * Time.deltaTime, 0, 0);
 			}
 		}
@@ -149,16 +149,21 @@ public class Gun : MonoBehaviour {
 
 		if (Input.GetButton ("Shoot")) {
 			
+
 			if (shootCheck == false) {
+				gunMoveSpeed_in = gunMoveSpeed * 0.75f;
 				bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
 				shootCheck = true;
-				
+
 			}
 
 
 
 		} else {
 			GamePad.SetVibration (0, 0f, 0f);
+			if (shootCheck == false) {
+				gunMoveSpeed_in = gunMoveSpeed * 1.75f;
+			}
 		}
 
 
@@ -203,6 +208,7 @@ public class Gun : MonoBehaviour {
 					ImpactEffect.SetActive(false);
 					ImpactEffect.SetActive(true);
 					gunBullet -= 1;
+					bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
 
 					GamePad.SetVibration (0, 1f, 1f);
 
@@ -216,7 +222,7 @@ public class Gun : MonoBehaviour {
 
 
 				} else {
-
+					gunMoveSpeed_in = gunMoveSpeed * 0.5f;;
 					GamePad.SetVibration (0, 0f, 0f);
 
 					bullet_txt.text = "reload...";
@@ -236,6 +242,7 @@ public class Gun : MonoBehaviour {
 	}
 
 	void reload() {
+		gunMoveSpeed_in = gunMoveSpeed * 1.75f;
 		if (gunBullet <= 0) {
 			gunBullet = gunBulletMax;
 		}

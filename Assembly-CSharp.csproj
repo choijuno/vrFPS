@@ -121,6 +121,7 @@
      <Compile Include="Assets\___Scripts\---1.InGame\_Enemy\enemyCol.cs" />
      <Compile Include="Assets\___Scripts\---1.InGame\_Enemy\zombieSample.cs" />
      <Compile Include="Assets\___Scripts\---9.ETC\sampleTrigger.cs" />
+     <Compile Include="Assets\shootSound.cs" />
      <None Include="Assets\Apocalyptic City Pack\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Apocalyptic City Pack\Extreme Vehicle Pack\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
@@ -237,6 +238,9 @@
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Users/PC03/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
+ <Reference Include="XInputDotNetPure">
+ <HintPath>D:/CJO/projects/Gun_prototype/Assets/Plugins/x86_64/XInputDotNetPure.dll</HintPath>
+ </Reference>
  <Reference Include="DOTween">
  <HintPath>D:/CJO/projects/Gun_prototype/Assets/SWS/Extensions/DOTween/DOTween.dll</HintPath>
  </Reference>
@@ -248,9 +252,6 @@
  </Reference>
  <Reference Include="DOTween50">
  <HintPath>D:/CJO/projects/Gun_prototype/Assets/SWS/Extensions/DOTween/DOTween50.dll</HintPath>
- </Reference>
- <Reference Include="XInputDotNetPure">
- <HintPath>D:/CJO/projects/Gun_prototype/Assets/Plugins/x86_64/XInputDotNetPure.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

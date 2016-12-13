@@ -1,18 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FPS Pack\Scripts\Demo\FPSFireManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\___Scripts\---1.InGame\Gun.cs">
     <Files>
-      <File FileName="Assets\___Scripts\---1.InGame\Gun.cs" Line="187" Column="8" />
-      <File FileName="Assets\FPS Pack\Scripts\Demo\FPSFireManager.cs" Line="20" Column="25" />
+      <File FileName="Assets\___Scripts\---1.InGame\Gun.cs" Line="191" Column="27" />
+      <File FileName="Assets\FPS Pack\Scripts\Demo\FPSFireManager.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---0.System\focus.cs" Line="1" Column="1" />
-      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie.cs" Line="33" Column="2" />
-      <File FileName="Assets\___Scripts\---0.System\SmoothMouseLook.cs" Line="14" Column="34" />
+      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie.cs" Line="46" Column="4" />
+      <File FileName="Assets\___Scripts\---0.System\SmoothMouseLook.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---0.System\BtnController.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---0.System\GameManager.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---1.InGame\_Enemy\zombieSample.cs" Line="1" Column="1" />
-      <File FileName="Assets\___Scripts\---9.ETC\sampleTrigger.cs" Line="12" Column="22" />
-      <File FileName="Assets\___Scripts\---1.InGame\Shooting.cs" Line="21" Column="4" />
-      <File FileName="Assets\FPS Pack\Scripts\MaterialType.cs" Line="21" Column="8" />
+      <File FileName="Assets\___Scripts\---9.ETC\sampleTrigger.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\Shooting.cs" Line="14" Column="1" />
+      <File FileName="Assets\FPS Pack\Scripts\MaterialType.cs" Line="1" Column="1" />
+      <File FileName="Assets\shootSound.cs" Line="12" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

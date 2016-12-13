@@ -8,6 +8,14 @@ public class Zombie : MonoBehaviour {
 
 
 
+	[Space]
+
+	public AudioSource dead_sound;
+
+	[Space]
+
+
+
 	public Animator myAni;
 
 	public GameObject playerPos;
@@ -72,6 +80,7 @@ public class Zombie : MonoBehaviour {
 	void dead(){
 		//gameObject.SetActive (false);
 		myAni.SetBool("Die", true);
+		dead_sound.Play ();
 		this.enabled = false;
 		dieCheck = true;
 		//StartCoroutine ("followPlayer");

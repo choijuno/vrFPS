@@ -166,6 +166,9 @@
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Users/PC03/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
+ <Reference Include="XInputDotNetPure">
+ <HintPath>D:/CJO/projects/Gun_prototype/Assets/Plugins/x86_64/XInputDotNetPure.dll</HintPath>
+ </Reference>
  <Reference Include="DOTween">
  <HintPath>D:/CJO/projects/Gun_prototype/Assets/SWS/Extensions/DOTween/DOTween.dll</HintPath>
  </Reference>
@@ -177,9 +180,6 @@
  </Reference>
  <Reference Include="DOTween50">
  <HintPath>D:/CJO/projects/Gun_prototype/Assets/SWS/Extensions/DOTween/DOTween50.dll</HintPath>
- </Reference>
- <Reference Include="XInputDotNetPure">
- <HintPath>D:/CJO/projects/Gun_prototype/Assets/Plugins/x86_64/XInputDotNetPure.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
