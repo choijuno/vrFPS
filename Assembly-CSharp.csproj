@@ -115,9 +115,12 @@
      <Compile Include="Assets\___Scripts\---0.System\GameManager.cs" />
      <Compile Include="Assets\___Scripts\---0.System\SmoothMouseLook.cs" />
      <Compile Include="Assets\___Scripts\---0.System\focus.cs" />
+     <Compile Include="Assets\___Scripts\---1.InGame\Car.cs" />
+     <Compile Include="Assets\___Scripts\---1.InGame\CarCol.cs" />
      <Compile Include="Assets\___Scripts\---1.InGame\Gun.cs" />
      <Compile Include="Assets\___Scripts\---1.InGame\Shooting.cs" />
      <Compile Include="Assets\___Scripts\---1.InGame\_Enemy\Zombie.cs" />
+     <Compile Include="Assets\___Scripts\---1.InGame\_Enemy\Zombie_fat_att.cs" />
      <Compile Include="Assets\___Scripts\---1.InGame\_Enemy\enemyCol.cs" />
      <Compile Include="Assets\___Scripts\---1.InGame\_Enemy\zombieSample.cs" />
      <Compile Include="Assets\___Scripts\---9.ETC\sampleTrigger.cs" />

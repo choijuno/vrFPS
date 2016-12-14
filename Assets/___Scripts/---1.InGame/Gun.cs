@@ -136,7 +136,7 @@ public class Gun : MonoBehaviour {
 			
 		}
 		*/
-		if (Input.GetButton ("Reload")) {
+		if (Input.GetButton ("Reload")||Input.GetKeyDown(KeyCode.X)) {
 			if (shootCheck == false) {
 				if (gunBullet < gunBulletMax) {
 					gunBullet = 0;
@@ -147,12 +147,16 @@ public class Gun : MonoBehaviour {
 		}
 
 
-		if (Input.GetButton ("Shoot")) {
+		if (Input.GetButton ("Shoot")||Input.GetKey(KeyCode.Space)) {
 			
 
 			if (shootCheck == false) {
 				gunMoveSpeed_in = gunMoveSpeed * 0.75f;
-				bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
+
+				//
+				//bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
+				bullet_txt.text = ""+gunBullet;
+
 				shootCheck = true;
 
 			}
@@ -208,8 +212,9 @@ public class Gun : MonoBehaviour {
 					ImpactEffect.SetActive(false);
 					ImpactEffect.SetActive(true);
 					gunBullet -= 1;
-					bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
-
+					//
+					//bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
+					bullet_txt.text = ""+gunBullet;
 					GamePad.SetVibration (0, 1f, 1f);
 
 
@@ -246,7 +251,9 @@ public class Gun : MonoBehaviour {
 		if (gunBullet <= 0) {
 			gunBullet = gunBulletMax;
 		}
-		bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
+		//
+		//bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
+		bullet_txt.text = ""+gunBullet;
 	}
 
 

@@ -2,31 +2,44 @@
 using System.Collections;
 
 public class focus : MonoBehaviour {
-	public Camera eye;
+	public Transform basePos;
+	Vector3 basePosXY;
+	float Rx;
+	float Ry;
+	public Transform myCamera;
 
-	float i;
+	public bool ViveCheck;
+
 
 	void Start () {
-		setfocus ();
+		
+		basePosXY = basePos.transform.position;
+
+		StartCoroutine ("startfocus");
 	}
 
-	void setfocus() {
-		//eye.transform.localRotation = ;
-		StartCoroutine("startfocus");
-	}
+
 
 	IEnumerator startfocus() {
 		while (true) {
-			transform.Rotate (0, Input.GetAxis ("Mouse X"), 0, 0);
-			/*
-			if (GameManager.unityMod) {
-				transform.LookAt (worldPosition:Input.mousePosition);
-			} else {
-				transform.Rotate (0, Input.GetAxis ("Mouse X"), 0, 0);
-			}
-			*/
+
+			myCamera.transform.localPosition = new Vector3 (Mathf.Lerp(myCamera.transform.localPosition.x,basePos.transform.localPosition.x,0.1f),Mathf.Lerp(myCamera.transform.localPosition.y,basePos.transform.localPosition.y,0.1f),0);
+
+
 		yield return new WaitForSeconds(0.006f);
 
 		}
+	}
+
+
+	void Update() {
+		if (ViveCheck) {
+
+		}
+	}
+
+
+	public void vive() {
+		ViveCheck = true;
 	}
 }

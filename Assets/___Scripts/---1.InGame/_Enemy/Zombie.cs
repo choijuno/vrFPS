@@ -26,6 +26,10 @@ public class Zombie : MonoBehaviour {
 
 	public int hp;
 
+	[Space]
+	public GameObject att_C;
+	bool att_Check;
+
 
 
 	// Use this for initialization
@@ -33,6 +37,7 @@ public class Zombie : MonoBehaviour {
 		myAni = myAni.GetComponent<Animator> ();
 		hp = 3;
 		playerPos = GameObject.Find ("Player");
+
 		moveSpeed_in = moveSpeed;
 		//moveSpeed_in = Random.Range(3.0f,5.0f);
 		StartCoroutine ("followPlayer");
@@ -61,8 +66,13 @@ public class Zombie : MonoBehaviour {
 	void OnCollisionEnter(Collision target) {
 		if (target.gameObject.CompareTag ("Car")) {
 
-			myAni.SetBool("Attack",true);
-
+			if (!att_Check) {
+				att_Check = true;
+				myAni.SetBool ("Attack", true);
+				Invoke ("att", 0.1f);
+			} else {
+				return;
+			}
 
 			/*
 			if (sampleCheck == false) {
@@ -76,6 +86,16 @@ public class Zombie : MonoBehaviour {
 
 	}
 
+	void att() {
+		myAni.SetBool ("Attack", false);
+		att_C.SetActive (true);
+		Invoke ("att_end", 0.15f);
+	}
+
+	void att_end() {
+		att_Check = false;
+		att_C.SetActive (false);
+	}
 
 	void dead(){
 		//gameObject.SetActive (false);
