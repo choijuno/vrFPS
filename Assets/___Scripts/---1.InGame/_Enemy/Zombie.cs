@@ -30,13 +30,48 @@ public class Zombie : MonoBehaviour {
 	public GameObject att_C;
 	bool att_Check;
 
+	[Space]
+	public lookPos mylook;
+
+
+
+
+	public enum lookPos {
+		BASE = 0,
+		LL_1,
+		LR_2,
+		RL_3,
+		RR_4,
+	}
+
 
 
 	// Use this for initialization
 	void Start () {
 		myAni = myAni.GetComponent<Animator> ();
 		hp = 3;
-		playerPos = GameObject.Find ("Player");
+
+
+		switch(mylook){
+		case lookPos.BASE:
+			playerPos = GameObject.Find ("Player");
+			break;
+		case lookPos.LL_1:
+			playerPos = GameObject.Find ("posLL");
+			break;
+		case lookPos.LR_2:
+			playerPos = GameObject.Find ("posLR");
+			break;
+		case lookPos.RL_3:
+			playerPos = GameObject.Find ("posRL");
+			break;
+		case lookPos.RR_4:
+			playerPos = GameObject.Find ("posRR");
+			break;
+
+
+		}
+
 
 		moveSpeed_in = moveSpeed;
 		//moveSpeed_in = Random.Range(3.0f,5.0f);

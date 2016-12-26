@@ -7,6 +7,7 @@ public class Car : MonoBehaviour {
 	int Hp_in;
 
 	public GameObject[] hp_image;
+	public GameObject[] hp_image_shadow;
 
 	void Start() {
 		Hp_in = Hp_max;
@@ -41,15 +42,19 @@ public class Car : MonoBehaviour {
 			break;
 		case 2:
 			hp_image [1].SetActive (true);
+			hp_image_shadow [2].SetActive (true);
 			break;
 		case 1:
 			hp_image [0].SetActive (true);
+			hp_image_shadow [1].SetActive (true);
 			break;
 		case 0:
 			hp_image [0].SetActive (true);
+			hp_image_shadow [0].SetActive (true);
 			break;
 		default:
 			hp_image [0].SetActive (true);
+			hp_image_shadow [0].SetActive (true);
 			break;
 		}
 

@@ -27,3 +27,4 @@ D:\CJO\projects\Gun_prototype\Temp\bin\Debug\DOTween.xml
 D:\CJO\projects\Gun_prototype\Temp\bin\Debug\DOTween43.xml
 D:\CJO\projects\Gun_prototype\Temp\bin\Debug\DOTween46.xml
 D:\CJO\projects\Gun_prototype\Temp\bin\Debug\DOTween50.xml
+D:\CJO\projects\Gun_prototype\Temp\bin\Debug\XInputDotNetPure.dll

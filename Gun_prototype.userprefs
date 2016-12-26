@@ -1,11 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\___Scripts\---0.System\focus.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SWS\Examples\Scripts\PathInputDemo.cs">
     <Files>
-      <File FileName="Assets\___Scripts\---1.InGame\Gun.cs" Line="191" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\Gun.cs" Line="1" Column="1" />
       <File FileName="Assets\FPS Pack\Scripts\Demo\FPSFireManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\___Scripts\---0.System\focus.cs" Line="37" Column="4" />
-      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie.cs" Line="91" Column="1" />
+      <File FileName="Assets\___Scripts\---0.System\focus.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---0.System\SmoothMouseLook.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---0.System\BtnController.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---0.System\GameManager.cs" Line="1" Column="1" />
@@ -13,11 +13,13 @@
       <File FileName="Assets\___Scripts\---9.ETC\sampleTrigger.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---1.InGame\Shooting.cs" Line="1" Column="1" />
       <File FileName="Assets\FPS Pack\Scripts\MaterialType.cs" Line="1" Column="1" />
-      <File FileName="Assets\shootSound.cs" Line="12" Column="2" />
-      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\enemyCol.cs" Line="9" Column="2" />
-      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie_fat_att.cs" Line="17" Column="88" />
-      <File FileName="Assets\___Scripts\---1.InGame\Car.cs" Line="48" Column="10" />
-      <File FileName="Assets\___Scripts\---1.InGame\CarCol.cs" Line="6" Column="31" />
+      <File FileName="Assets\shootSound.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\enemyCol.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie_fat_att.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\Car.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---1.InGame\CarCol.cs" Line="1" Column="1" />
+      <File FileName="d:\CJO\projects\Gun_prototype\Assets\SWS\Scripts\Manager\BezierPathManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\SWS\Examples\Scripts\PathInputDemo.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

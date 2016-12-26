@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Apocalyptic City Pack/Scene/main scene.unity
+- path: Assets/SWS/Examples/Example6_PathInput.unity
   isLoaded: 1
   isActive: 1

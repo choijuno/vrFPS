@@ -5,6 +5,7 @@ using XInputDotNetPure;
 public class Gun : MonoBehaviour {
 	public GameObject lineEndpos;
 	public TextMesh bullet_txt;
+	public TextMesh bullet_txt_shadow;
 
 	[Space] //FPS_Fire
 	public ImpactInfo[] ImpactElemets = new ImpactInfo[0];
@@ -156,7 +157,7 @@ public class Gun : MonoBehaviour {
 				//
 				//bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
 				bullet_txt.text = ""+gunBullet;
-
+				bullet_txt_shadow.text = ""+gunBullet;
 				shootCheck = true;
 
 			}
@@ -214,6 +215,9 @@ public class Gun : MonoBehaviour {
 					gunBullet -= 1;
 					//
 					//bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
+					bullet_txt_shadow.gameObject.SetActive(false);
+					bullet_txt_shadow.gameObject.SetActive(true);
+					bullet_txt_shadow.text = ""+gunBullet;
 					bullet_txt.text = ""+gunBullet;
 					GamePad.SetVibration (0, 1f, 1f);
 
@@ -229,7 +233,7 @@ public class Gun : MonoBehaviour {
 				} else {
 					gunMoveSpeed_in = gunMoveSpeed * 0.5f;;
 					GamePad.SetVibration (0, 0f, 0f);
-
+					bullet_txt_shadow.text = "";
 					bullet_txt.text = "reload...";
 					yield return new WaitForSeconds (reloadSpeed);
 					shootCheck = false;
@@ -254,6 +258,7 @@ public class Gun : MonoBehaviour {
 		//
 		//bullet_txt.text = "Bullet " + gunBullet	+ " / " + gunBulletMax;
 		bullet_txt.text = ""+gunBullet;
+		bullet_txt_shadow.text = ""+gunBullet;
 	}
 
 
