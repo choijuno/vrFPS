@@ -62,7 +62,10 @@ public class Car : MonoBehaviour {
 
 	void imageoff(){
 		hp_image [0].SetActive (false);
+		hp_image_shadow [0].SetActive (false);
 		hp_image [1].SetActive (false);
+		hp_image_shadow [1].SetActive (false);
 		hp_image [2].SetActive (false);
+		hp_image_shadow [2].SetActive (false);
 	}
 }

@@ -1,14 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SWS\Examples\Scripts\PathInputDemo.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\___Scripts\---0.System\GameManager.cs">
     <Files>
       <File FileName="Assets\___Scripts\---1.InGame\Gun.cs" Line="1" Column="1" />
       <File FileName="Assets\FPS Pack\Scripts\Demo\FPSFireManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\___Scripts\---0.System\focus.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---1.InGame\_Enemy\Zombie.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---0.System\SmoothMouseLook.cs" Line="1" Column="1" />
-      <File FileName="Assets\___Scripts\---0.System\BtnController.cs" Line="1" Column="1" />
-      <File FileName="Assets\___Scripts\---0.System\GameManager.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---1.InGame\_Enemy\zombieSample.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---9.ETC\sampleTrigger.cs" Line="1" Column="1" />
       <File FileName="Assets\___Scripts\---1.InGame\Shooting.cs" Line="1" Column="1" />
@@ -20,6 +17,11 @@
       <File FileName="Assets\___Scripts\---1.InGame\CarCol.cs" Line="1" Column="1" />
       <File FileName="d:\CJO\projects\Gun_prototype\Assets\SWS\Scripts\Manager\BezierPathManager.cs" Line="1" Column="1" />
       <File FileName="Assets\SWS\Examples\Scripts\PathInputDemo.cs" Line="1" Column="1" />
+      <File FileName="Assets\SWS\Examples\Scripts\EventReceiver.cs" Line="1" Column="1" />
+      <File FileName="Assets\SWS\Examples\Scripts\RuntimeDemo.cs" Line="1" Column="1" />
+      <File FileName="Assets\SWS\Scripts\Movement\splineMove.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---0.System\focus.cs" Line="1" Column="1" />
+      <File FileName="Assets\___Scripts\---0.System\GameManager.cs" Line="27" Column="41" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
